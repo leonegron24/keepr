@@ -35,7 +35,11 @@ public class VaultsRepository : IRepository<Vault>
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        string sql = "DELETE FROM vault WHERE id = @id LIMIT 1";
+
+        int rowsAffected = _db.Execute(sql, new { id });
+
+        if (rowsAffected != 1) throw new Exception($"{rowsAffected} were DELETED and that is bad");
     }
 
     public List<Vault> GetAll()
@@ -64,7 +68,18 @@ public class VaultsRepository : IRepository<Vault>
 
     public void Update(Vault updateData)
     {
-        throw new NotImplementedException();
+        string sql = @"
+        UPDATE vault
+        SET 
+        name = @Name,
+        description = @Description,
+        img = @Img,
+        is_private = @IsPrivate
+        WHERE id = @Id LIMIT 1;";
+
+        int rowsAffected = _db.Execute(sql, updateData);
+
+        if (rowsAffected != 1) throw new Exception($"{rowsAffected} were UPDATED and that is bad");
     }
 }
 
