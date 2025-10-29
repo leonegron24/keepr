@@ -19,5 +19,39 @@ CREATE TABLE keep (
     creator_id VARCHAR(255),
     FOREIGN KEY (creator_id) REFERENCES accounts (id) ON DELETE CASCADE
 );
+/* VAULTKEEPS! */
+CREATE TABLE vaultKeep (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    keep_id INT NOT NULL,
+    vault_id INT NOT NULL,
+    creator_id VARCHAR(255) NOT NULL,
+    FOREIGN KEY (creator_id) REFERENCES accounts (id) ON DELETE CASCADE,
+    FOREIGN KEY (keep_id) REFERENCES keep (id) ON DELETE CASCADE,
+    FOREIGN KEY (vault_id) REFERENCES vault (id) ON DELETE CASCADE
+)
+
+CREATE TABLE vault (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(1000) NOT NULL,
+    img VARCHAR(1000) NOT NULL,
+    is_private BOOLEAN NOT NULL DEFAULT false,
+    creator_id VARCHAR(255) NOT NULL,
+    FOREIGN KEY (creator_id) REFERENCES accounts (id) ON DELETE CASCADE
+)
 
 DROP TABLE IF EXISTS keeps;
+
+SELECT keep.*, COUNT(vaultKeep.id) AS kept, accounts.*
+FROM
+    keep
+    INNER JOIN accounts ON accounts.id = keep.creator_id
+    LEFT JOIN vaultKeep ON vaultKeep.keep_id = keep.id
+WHERE
+    keep.id = LAST_INSERT_ID()
+GROUP BY
+    keep.id
