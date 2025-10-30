@@ -1,3 +1,4 @@
+
 namespace keepr.Repositories;
 
 public class AccountsRepository
@@ -38,10 +39,28 @@ public class AccountsRepository
             UPDATE accounts
             SET 
               name = @Name,
-              picture = @Picture
+              picture = @Picture,
+              coverImg = @CoverImg
             WHERE id = @Id;";
     _db.Execute(sql, update);
     return update;
+  }
+
+  internal List<Vault> GetMyVaults(string userId)
+  {
+    string sql = @"
+      SELECT vault.*, accounts.*
+      FROM vault
+      INNER JOIN accounts ON accounts.id = vault.creator_id
+      WHERE vault.creator_id = @userId;";
+
+    List<Vault> vaults = _db.Query(sql, (Vault vault, Account account) =>
+    {
+      vault.Creator = account;
+      return vault;
+    }, new { userId }).ToList();
+
+    return vaults;
   }
 }
 

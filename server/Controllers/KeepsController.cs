@@ -1,6 +1,6 @@
 namespace keepr.Controllers;
 
-[Authorize]
+
 [ApiController]
 [Route("api/[controller]")]
 public class KeepsController : ControllerBase

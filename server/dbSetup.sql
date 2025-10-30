@@ -55,3 +55,18 @@ WHERE
     keep.id = LAST_INSERT_ID()
 GROUP BY
     keep.id
+
+SELECT vaultKeep.id AS vaultKeepID, keep.*, accounts.*
+FROM
+    vault
+    INNER JOIN vaultKeep ON vaultKeep.vault_id = 36
+    INNER JOIN keep ON keep.id = vaultKeep.keep_id
+    INNER JOIN accounts ON accounts.id = keep.creator_id
+
+SELECT accounts.*
+FROM accounts
+WHERE
+    accounts.id = '685df65b38949a162240dacd';
+
+ALTER TABLE accounts
+ADD COLUMN coverImg VARCHAR(500) DEFAULT 'https://placehold.co/600x200';
