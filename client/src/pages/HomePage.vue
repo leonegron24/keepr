@@ -8,6 +8,8 @@ import Login from '@/components/Login.vue';
 <template>
   <header>
     <div class="row justify-content-end shadow">
+
+
       <!-- TITLE and Login -->
       <div class="col-md-6 justify-content-between d-flex align-items-center">
         <RouterLink :to="{ name: 'Home' }" class="m-2 text-black text-decoration-none">
@@ -15,6 +17,7 @@ import Login from '@/components/Login.vue';
             <p class="m-0">the<br>keepr<br>co.</p>
           </div>
         </RouterLink>
+
         <Login />
       </div>
     </div>
