@@ -16,3 +16,5 @@ export class Account {
     // TODO add additional properties if needed
   }
 }
+
+
