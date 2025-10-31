@@ -4,6 +4,8 @@ import { computed } from 'vue';
 
 
 const keep = computed(() => AppState.activeKeep)
+const account = computed(() => AppState.account)
+const identity = computed(() => AppState.identity)
 
 </script>
 
@@ -15,17 +17,17 @@ const keep = computed(() => AppState.activeKeep)
             <!-- CONTENT START -->
             <div class="modal-content container-fluid" v-if="keep">
                 <div class="row">
-                    <div class="col-6 p-0 modalImg" :style="{ backgroundImage: `url(${keep.img})` }">
+                    <div class="col-md-6 p-0 modalImg" :style="{ backgroundImage: `url(${keep.img})` }">
                     </div>
-                    <div class="col-6 p-2 d-flex flex-column">
+                    <div class="col-md-6 p-2 d-flex flex-column">
                         <!-- Top content stays at the top -->
                         <div class="text-end w-100">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <div class="row justify-content-center mb-3">
-                            <div class="col-md-3 text-center">
-                                <div class="d-flex justify-content-between">
+                            <div class="col-6 text-center">
+                                <div class="d-flex justify-content-around">
                                     <i class="mdi mdi-eye"><span>0</span></i>
                                     <div>
                                         <p class="bordered-text">k</p> <span>0</span>
@@ -38,6 +40,16 @@ const keep = computed(() => AppState.activeKeep)
                         <div class="mt-auto mb-auto d-flex flex-column justify-content-center align-items-center">
                             <h1 class="text-center">{{ keep.name }}</h1>
                             <div>{{ keep.description }}</div>
+                        </div>
+                        <div v-if="account" class="row mt-4 d-flex justify-content-between">
+                            <div class="d-flex col-4  justify-content-between align-items-center">
+                                <div>Vault Names</div>
+                                <btn class="btn btn-sm p-0 btn-grey">SAVE</btn>
+                            </div>
+                            <div v-if="account?.picture || identity?.picture" class="col-4 text-end">
+                                <img :src="account?.picture || identity?.picture" alt="account photo" height="40"
+                                    class="user-img" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,5 +82,13 @@ div {
     /* rounded corners */
     padding: 2px 4px;
     line-height: 1;
+}
+
+.user-img {
+    height: 50px;
+    width: 50px;
+    border-radius: 100px;
+    object-fit: cover;
+    object-position: center;
 }
 </style>
