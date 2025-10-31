@@ -46,6 +46,13 @@
 @import "bootstrap/scss/placeholders";
 @import "bootstrap/scss/helpers";
 
+.modal-backdrop {
+  background-color: #757c83 !important;
+  /* solid color you want */
+  opacity: 1 !important;
+  /* fully opaque */
+}
+
 
 
 .no-highlight {
